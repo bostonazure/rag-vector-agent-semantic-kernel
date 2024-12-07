@@ -244,6 +244,7 @@ The loop on line 20 iterates all the results and builds a list of the item text 
 2. **Paste the following code** into the file and save it:
 
 ```C#
+using Memory;
 using Microsoft.SemanticKernel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -253,7 +254,6 @@ namespace Plugins;
 
 public class PdfRetrieverPlugin(MemoryStore memoryStore)
 {
-    
     [KernelFunction, Description("Searches for company information.")]
     public async Task<string> RetrieveAsync([Description("User's message"), Required] string question, Kernel kernel)
     {
