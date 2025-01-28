@@ -144,3 +144,10 @@ I am an AI Partner Solution Architect working with Microsoft, focusing on AI sol
 [LinkedIn](https://www.linkedin.com/in/jpgarciagonzalez/)
 
 [Twitter](https://twitter.com/liarjo)
+
+## Other Resources
+
+* [Code map summary of Semantic Kernel .NET/C# APIs](https://github.com/microsoft/semantic-kernel/blob/main/docs/code_maps/dotNET.pdf)
+* [Code map summary of Semantic Kernel Python APIs](https://github.com/microsoft/semantic-kernel/blob/main/docs/code_maps/Python.pdf)
+* [Repo for above two code map summaries](https://github.com/microsoft/semantic-kernel/tree/main/docs/code_maps)
+  
