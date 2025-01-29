@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net9.0</TargetFramework>
+		<RootNamespace>SK_Workshop_Lab3</RootNamespace>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<NoWarn>SKEXP0001;SKEXP0050;SKEXP0010;SKEXP0020</NoWarn>
+		<StartArguments>$(SolutionDir)..\..\..\assets</StartArguments>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Prompts\BasicRAG\config.json" />
+	  <None Remove="Prompts\BasicRAG\skprompt.txt" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="Prompts\BasicRAG\config.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Prompts\BasicRAG\skprompt.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Http.Resilience" Version="9.1.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.1" />
+		<PackageReference Include="Microsoft.SemanticKernel" Version="1.33.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Core" Version="1.33.0-alpha" />
+		<PackageReference Include="Microsoft.SemanticKernel.Plugins.Web" Version="1.33.0-alpha" />
+		<PackageReference Include="PdfPig" Version="0.1.10-alpha-20250115-92d34" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.Local.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Prompts\ResearchAbstract\config.json">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Prompts\ResearchAbstract\skprompt.txt">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="Prompts\RewriteQuery\config.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Prompts\RewriteQuery\skprompt.txt">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
