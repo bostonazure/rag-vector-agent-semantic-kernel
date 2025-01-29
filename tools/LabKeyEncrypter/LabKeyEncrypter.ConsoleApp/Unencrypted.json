@@ -1,0 +1,9 @@
+{
+  "PluginConfig": {
+    "BingApiKey": "NotRealKey"
+  },
+  "ConnectionStrings": {
+    "SqlAzureDB": "Server=NotRealServer;Database=db-workshop-jan;User Id=NotRealID;Password=NotRealPassword;Persist Security Info=True;MultipleActiveResultSets=True;TrustServerCertificate=True;",
+    "OpenAI": "Source=AzureOpenAI;Key=NotRealKey;ChatDeploymentName=chat;TextEmbeddingsDeploymentName=text;Endpoint=NotRealEndpoint"
+  }
+}
