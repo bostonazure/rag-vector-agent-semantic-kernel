@@ -1,7 +1,9 @@
 # LAB 6: Second Agent, a City Poet agent based on ChatCompletionAgent with skills
 ## Introduction
 
-This exercise aims to extend the Agent created in the first exercise by providing it with a skill to search for the current weather of the city where the poem is written and add the city's current weather to it. To achieve this, the agent leverages the Semantic Kernel Plugin as a skill.
+This exercise aims to extend the agent created in the first exercise by providing it with a skill to search for the current weather in the city where the poem is written and add the city's current weather to it. To achieve this, the agent leverages the Semantic Kernel Plugin as a skill. Also, in this exercise, you will use a writing style that mimics the author's styles.
+
+
 
 <img src="./assets/Peom_Weather.png" alt="ity Peot and Weather Agent" width="70%" height="70%">
 
@@ -65,6 +67,11 @@ This exercise aims to extend the Agent created in the first exercise by providin
     Add a the `CreateAgentCityPoetWithSkills` method to the Class `Program`.
 
     ```csharp
+    /// <summary>
+    /// Create and Agent with Skill that creat Poems and ground weahter information leveraging the WeatherPlugin
+    /// </summary>
+    /// <param name="AgentKernel">the agent's kernel</param>
+    /// <returns></returns>
     static ChatCompletionAgent CreateAgentCityPoetWithSkills(Kernel AgentKernel)
     {
         //1. Add a WeatherPlugin to the Kernel, for this agent to use

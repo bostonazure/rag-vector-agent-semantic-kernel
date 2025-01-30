@@ -3,6 +3,10 @@
 
 This exercise explains how to create an Agent Group Chat to book a trip that includes flights and a hotel. The solution involves four AI agents with specific roles that collaborate to fulfill the user's travel request.
 
+This first Agent group chat will respond to user requests autonomously.
+
+
+
 <img src="./assets/aiAgentChat.png" alt="ity Peot and Weather Agent" width="70%" height="70%">
 
 ## Learning objetives
@@ -67,7 +71,7 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
         /// Get the user trip request to be used in the chat.
         /// </summary>
         /// <returns></returns>
-        private static string GetUserTripRequest()
+        public static string GetUserTripRequest()
         {
             Console.WriteLine();
             Console.WriteLine();
@@ -121,7 +125,7 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
         /// <summary>
         /// Check if the final message contains the termination key to determine if the chat should end.
         /// </summary>
-        private sealed class ApprovalTerminationStrategy(string terminationKey) : TerminationStrategy
+        public sealed class ApprovalTerminationStrategy(string terminationKey) : TerminationStrategy
         {
             // Terminate when the final message contains the term including the termination key.
             protected override Task<bool> ShouldAgentTerminateAsync(Agent agent, IReadOnlyList<ChatMessageContent> history, CancellationToken cancellationToken)
@@ -201,9 +205,9 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
             ChatCompletionAgent FlyReservationAgent = CreateBasicAgent("FlightSearchAgent", kernel, FlightSearchAssistantInstructions, "Flight Search Assistant, not booking");
             ChatCompletionAgent BookingAgent = CreateBasicAgent("BookingAgent", kernel, BookingAgentInstructions, "Booking Agent, you book the flight and hotel when you recieve 'Approve and ready to book!' confirmation");
             
-        //3. Create the chat group with the agents and the termination strategy.
-        // The termination strategy defines when the chat should end.
-        // Define which agents participate in the chat and the maximum number of iterations.
+            //3. Create the chat group with the agents and the termination strategy.
+            // The termination strategy defines when the chat should end.
+            // Define which agents participate in the chat and the maximum number of iterations.
             AgentGroupChat chat =
                 new(TravelAgencyAgent,BookingAgent, FlyReservationAgent, HotelReservationAgent)
                 {
@@ -253,14 +257,14 @@ This exercise explains how to create an Agent Group Chat to book a trip that inc
 7. Task: Update the **Main** method to include in the user options this Groupchat in the user menu.
 
 ```csharp
-    case "4":
+    case "3":
         await TravelAgentChatHelper.TravelAgentGroupChatSecuential(theAgentKernel);
         break;
 ```
 ## Run and test the Group Agent
 8. Task: Run the console application and test
 
-    8.1  Select the option **TravelAgentGroupChatSecuential**
+    8.1  Select the option **TravelAgent GroupChat Sequential autonumous**
 
     8.2 Select your trip destination option, for exmple **Santiago**.
 

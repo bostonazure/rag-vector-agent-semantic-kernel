@@ -89,9 +89,11 @@ To start the lab, you need to create a .NET Console App and add the necessary Nu
 ## Basic Semantic Kernel code and Kernel creation
 4. Task:Replace Program.cs code to create your first SK Kernel
     
-    To create an agent with SK, the first thing we need is an SK `Kernel`. We will first create the SK and connect it with an Azure OpenAI model. Then, we will set up logging services to gather instrumentation that will help us understand the agent's behaviors.
+    To create an agent with SK, the first thing we need is an SK `Kernel`. We will first create the SK `Kernel` and connect it with an Azure OpenAI model. Then, we will set up logging services to gather instrumentation that will help us understand the agent's behaviors.
 
     The `Services.AddLogging` command in Semantic Kernel is used to add logging services to your application. This is particularly useful for debugging and monitoring the behavior of your AI agents. When you use this command, you can configure various logging providers and set the minimum log level.
+
+    Replace the application code with this initial SK code.
     ```csharp
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -284,9 +286,8 @@ Now that we have the Kernel working, we will create the first agent. To do this,
         Console.WriteLine("Select which lab to execute:");
         Console.WriteLine("1. Call_CityPoetAgentBasic");
         Console.WriteLine("2. Call_CityPoetAgentWithSkills");
-        Console.WriteLine("3. WriterReviewGroupAgent");
-        Console.WriteLine("4. TravelAgentGroupChatSequential");
-        Console.WriteLine("5. TravelAgentGroupChatStrategy");
+        Console.WriteLine("3. TravelAgent GroupChat Sequential autonumous");
+        Console.WriteLine("4. TravelAgent GroupChat Human in the loop");
 
         var choice = Console.ReadLine();
         switch (choice)
@@ -295,19 +296,15 @@ Now that we have the Kernel working, we will create the first agent. To do this,
                 await Call_CityPoetAgentBasic(myKernel.Clone());
                 break;
             case "2":
-                //await Call_CityPoetAgentWithSkills(myKernel.Clone());
                 new NotImplementedException("This lab is not implemented yet.");
                 break;
             case "3":
-                //await ProgramChatGroupAgent.WriterReviewGroupAgent(theAgentKernel);
                 new NotImplementedException("This lab is not implemented yet.");
                 break;
             case "4":
-                //await ProgramChatGroupAgent.TravelAgentGroupChatSequential(myKernel.Clone());
                 new NotImplementedException("This lab is not implemented yet.");
                 break;
             case "5":
-                //await ProgramChatGroupAgent.TravelAgentGroupChatStrategy(myKernel.Clone());
                 new NotImplementedException("This lab is not implemented yet.");
                 break;
             default:
@@ -318,7 +315,9 @@ Now that we have the Kernel working, we will create the first agent. To do this,
 
     6.4 Task: Test the agent. 
     
-    Run the console app and  type the city that you would like to use for the poem subject. fo example:
+    Run the console app and select option 1, after that type the city that you would like to use for the poem subject. 
+    
+    For example, you could use one of these cities:
         
         a. Paris, France
 
