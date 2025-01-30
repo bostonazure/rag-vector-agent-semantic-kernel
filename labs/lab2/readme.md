@@ -7,13 +7,28 @@
 3. Create a plugin that uses an LLM to rewrite a user query
 4. Utilize a Semantic Kernel plugin to perform a web search
 
+## Prerequisites
+
+* Populate the connection string in the `appsettings.Local.json` file with 
+the values provided in the workshop. If you are doing this after, you will 
+need to use your own settings for either OpenAI or AzureOpenAI. See [instructions 
+for provisioning an Azure OpenAI via the Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) 
+for more information.
+
+### Downloading the Workshop Credentials
+
+```console
+curl -L -o settings.Local.json TO BE FILLED IN FOR WORKSHOP
+Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Local.json"
+```
+
 ## Visual Studio Code
 
 ### Create a native KernelFunction plugin
 
-1. Open the **labs\lab2\src\start\SK-Workshop-Lab2** folder in your VS Code
+1. Open the **labs\lab2\src\start** folder in your VS Code
 
-2. In the **file explorer**, add **a new folder** named **Plugins** under the **SK-Workshop-Lab2** folder
+2. In the **file explorer**, add **a new folder** named **Plugins** under the **start** folder
 
 ![Plugins folder](assets/lab2_img1.jpg)
 
@@ -64,7 +79,7 @@ Now let's create a prompt that will require the LLM to know what timezone we are
 var prompt1 = "What time is it one the west coast of the united states right now? My current timezone {{dateTimePlugin.timeZone}} and current date and time is {{dateTimePlugin.dateWithTime}}";
 ```
 
-4. In the **file explorer**, expand the **SK-Workshop-Lab2** subfolder and **right click** on it and select **Open in Integrated Terminal**
+4. In the **file explorer right click** on the **start folder** and select **Open in Integrated Terminal**
 
 ![Integrated Terminal](assets/lab2_img2.jpg)
 
@@ -85,7 +100,7 @@ RESPONSE:
 I'm sorry, but I can't access real-time data such as the current time. However, you can easily determine the current time on the West Coast of the United States by knowing their time zone. The West Coast is in the Pacific Time Zone (PT). During Standard Time, it is UTC-8, and during Daylight Saving Time, it is UTC-7. You can compare this to your current time zone to find the current time on the West Coast.
 ```
 
-This shows the prompt did not call the plugin function when we called the LLM - so the result from the LLM indicates it does not know.
+This shows the prompt did not call the plugin function in order to replace `{{dateTimePlugin.timeZone}}` and `{{dateTimePlugin.dateWithTime}}` when we called the LLM - so the result from the LLM indicates it does not know.
 
 Now let's render the prompt so the plugin functions get called.
 
@@ -206,7 +221,7 @@ In this section, you will see how powerful adding web searching is to an LLM cha
 1. **Add the package reference** to the project by running the following command in the terminal:
 
 ```PowerShell
-dotnet add package Microsoft.SemanticKernel.Plugins.Web --version 1.30.0-alpha
+dotnet add package Microsoft.SemanticKernel.Plugins.Web --version 1.33.0-alpha
 ```
 
 2. In the **Program.cs** file, **uncomment lines 8 and 9** to import the namespaces we'll need to use.
