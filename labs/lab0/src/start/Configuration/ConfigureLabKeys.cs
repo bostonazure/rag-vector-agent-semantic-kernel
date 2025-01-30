@@ -38,8 +38,7 @@ public class ConfigureLabKeys
       else
       {
          Console.WriteLine("╔══════════════════════════════════════════════╗");
-         Console.WriteLine("  😄 One-time Lab Configuration ✅ COMPLETED 😊 ");
-         Console.WriteLine("             🤖🤖  Let's go!   🚀🚀             ");
+         Console.WriteLine("   😄 One-time Lab Configuration STARTED 😊 ");
          Console.WriteLine("╚══════════════════════════════════════════════╝");
       }
 
@@ -84,9 +83,10 @@ public class ConfigureLabKeys
          File.Copy(localSettingsPath, labSettingsPath, overwrite: true);
       }
 
-      Console.WriteLine("╔═════════════════════════════╗");
-      Console.WriteLine("║ Lab key decryption COMPLETE ║");
-      Console.WriteLine("╚═════════════════════════════╝");
+      Console.WriteLine("╔══════════════════════════════════════════════╗");
+      Console.WriteLine("  😄 One-time Lab Configuration ✅ COMPLETED 😊 ");
+      Console.WriteLine("             🤖🤖  Let's go!   🚀🚀             ");
+      Console.WriteLine("╚══════════════════════════════════════════════╝");
    }
 
    // TODO: don't hard-code ".../labs/keys" path
