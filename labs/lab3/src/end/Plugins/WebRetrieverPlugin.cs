@@ -1,8 +1,6 @@
 ﻿using Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Plugins.Web;
 using Microsoft.SemanticKernel.Plugins.Web.Bing;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
