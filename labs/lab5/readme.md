@@ -7,6 +7,21 @@
 3. Create a plugin to determine the user's intent
 4. Dynamically control the functions available to the LLM depending on the user's intent
 
+## Prerequisites
+
+* Populate the connection string in the `appsettings.Local.json` file with 
+the values provided in the workshop. If you are doing this after, you will 
+need to use your own settings for either OpenAI or AzureOpenAI. See [instructions 
+for provisioning an Azure OpenAI via the Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) 
+for more information.
+
+### Downloading the Workshop Credentials
+
+```console
+curl -L -o settings.Local.json TO BE FILLED IN FOR WORKSHOP
+Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Local.json"
+```
+
 ### Visual Studio Code
 
 In this lab we extend the chatbot to determine if a user's question should be answered by using the `WebRetrieverPlugin` from lab 3 or the `PdfRetrieverPlugin` from lab 4. 
