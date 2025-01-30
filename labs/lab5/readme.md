@@ -29,7 +29,7 @@ In this lab we extend the chatbot to determine if a user's question should be an
 ### Add Filters and Logging to Understand the Logic Flow
 First we are going use [Filters](https://learn.microsoft.com/en-us/semantic-kernel/concepts/enterprise-readiness/filters?pivots=programming-language-csharp) to understand the logic flow and add some logging.
 
-1. Open the **labs\lab5\src\start\SK-Workshop-Lab5** folder in VS Code
+1. Open the **labs\lab5\src\start** folder in VS Code
 
 2. In the **Program.cs** file, **replace line 22** with the following lines:
 
@@ -52,7 +52,7 @@ This filter implements the `IFunctionInvocationFilter` interface and is called w
 #### PromptRenderLoggingFilter.cs
 This filter implements the `IPromptRenderFilter` interface and is triggered when a prompt is being rendered. Use cases for this filter include: modifying the prompt before sending to LLM, calling out to [Prompt Shields](https://learn.microsoft.com/en-us/azure/ai-services/content-safety/concepts/jailbreak-detection) to analyze the prompt, caching of prompts, removal of PII, etc.
 
-3. In the **file explorer**, expand the **SK-Workshop-Lab5 subfolder** and **right click** on it and select **Open in Integrated Terminal**
+3. In the **file explorer**, expand the **start folder** and **right click** on it and select **Open in Integrated Terminal**
 
 ![Integrated Terminal](assets/lab5_img1.jpg)
 
@@ -210,12 +210,12 @@ Then look through the console logs to find which function was called. For exampl
 PdfRetrieverPlugin-Retrieve({"question":"LinkedIn revenue last quarter"})
 ```
 
-Now ask a question that isn't related to Microsoft at all, like: **When is the next Boston Azure meetup?**
+Now ask a question that isn't related to Microsoft at all, like: **When is the next Boston Azure AI meetup?**
 
 Now when you look through the console logs, you should see something like:
 
 ```console
-WebRetrieverPlugin-Retrieve({"question":"next Boston Azure meetup date"})
+WebRetrieverPlugin-Retrieve({"question":"next Boston Azure AI meetup date"})
 ```
 
 > NOTE: in both of the examples above, the LLM passed back a **different string than what I actually typed**.
@@ -224,30 +224,36 @@ Since the LLM is not passing the user question back verbatim, we can remove our 
 
 ### Remove the Query Rewriting in the `WebRetrieverPlugin`  
 
-1. Open the **Plugins/WebRetrieverPlugin.cs** file and **remove lines 18 - 24**.
+1. Open the **Plugins/WebRetrieverPlugin.cs** file and **remove lines 17 - 24**.
 
 2. Change the **searchQuery.ToString()** on line 19 to be **question**
 
 The RetrieveAsync method should now look like this:
 
 ```C#
-    [KernelFunction, Description("Searches the web for answering user questions.")]
-    public async Task<string> RetrieveAsync([Description("User's query"), Required] string question, Kernel kernel)
+[KernelFunction, Description("Searches the web for answering user questions.")]
+public async Task<string> RetrieveAsync([Description("User's query"), Required] string question, Kernel kernel)
+{
+    var searchEngine = new BingTextSearch(pluginOptions.Value.BingApiKey);
+    var searchResults = await searchEngine.SearchAsync(question);
+
+    var results = new StringBuilder();
+    await foreach (var result in searchResults.Results)
     {
-        var searchEngine = new WebSearchEnginePlugin(new BingConnector(pluginOptions.Value.BingApiKey, loggerFactory: loggerFactory));
-        var searchResults = await searchEngine.SearchAsync(question);
-        
-        var rag = kernel.Plugins["Prompts"];
-
-        var llmResult = await kernel.InvokeAsync(rag["BasicRAG"],
-            new() {
-                { "question", question },
-                { "context", searchResults }
-            }
-        );
-
-        return llmResult.ToString();
+        results.AppendLine(result.ToString());
     }
+    
+    var rag = kernel.Plugins["Prompts"];
+
+    var llmResult = await kernel.InvokeAsync(rag["BasicRAG"],
+        new() {
+            { "question", question },
+            { "context", results.ToString() }
+        }
+    );
+
+    return llmResult.ToString();
+}
 ```
 
 3. **Start your application** in the terminal by running:
@@ -256,7 +262,7 @@ The RetrieveAsync method should now look like this:
 dotnet run
 ```
 
-3. Ask a question that not related to Microsoft like: **When is the next Boston Azure meetup?**
+3. Ask a question that not related to Microsoft like: **When is the next Boston Azure AI meetup?**
 
 Now if you look through the console logs, you'll notice that little change removed the need for the following function and prompt render calls:
 
@@ -290,7 +296,7 @@ template: |
   #####
   Examples:
   
-  When is the next Boston Azure meetup?
+  When is the next Boston Azure AI meetup?
   Intent: WebSearch
   
   What is events are in Boston today?
@@ -353,7 +359,7 @@ So the last ItemGroup looks like this:
 </Project>
 ```
 
-6. In the **Program.cs file**, on **line 42** replace the `// TODO` with the following line:
+6. In the **Program.cs file**, on **line 41** replace the `// TODO` with the following line:
 
 ```C#
 kernel.ImportPluginFromDirectory("YamlPrompts");
@@ -390,7 +396,7 @@ Now let's add the router logic to the flow.
 
 We will be initializing the `OpenAIPromptExecutionSettings` differently this time once we determine the user's intent, so we have to move it inside the chatbot loop.
 
-2. On **line 62**, replace the `// TODO` with this code:
+2. On **line 61**, replace the `// TODO` with this code:
 
 ```C#
 List<KernelFunction> functionsList = new();
@@ -398,7 +404,7 @@ List<KernelFunction> functionsList = new();
 
 This variable will hold our list of functions we want the LLM to call.
 
-3. On **line 73**, replace the `// TODO` with this code to call the UserIntent prompt:
+3. On **line 72**, replace the `// TODO` with this code to call the UserIntent prompt:
 
 ```C#
 var intent = await kernel.InvokeAsync(
@@ -427,7 +433,7 @@ Next we take the result from the UserIntent and build the `functionList` with th
 
 Now we need to initialize the `OpenAIPromptExecutionSettings` to configure the LLM call to require it to call our RAG function.
 
-4. On **line 92**, replace the `// TODO` with the following code:
+4. On **line 91**, replace the `// TODO` with the following code:
 
 ```C#
 OpenAIPromptExecutionSettings openAIPromptExecutionSettings = new()
@@ -454,12 +460,12 @@ Then look through the console logs to find which function was called. For exampl
 PdfRetrieverPlugin-Retrieve({"question":"LinkedIn revenue last quarter"})
 ```
 
-7. Now ask a question not related to Microsoft at all, like: **When is the next Boston Azure meetup?**
+7. Now ask a question not related to Microsoft at all, like: **When is the next Boston Azure AI meetup?**
 
 Now when you look through the console logs, you should see something like:
 
 ```console
-WebRetrieverPlugin-Retrieve({"question":"next Boston Azure meetup date"})
+WebRetrieverPlugin-Retrieve({"question":"next Boston Azure AI meetup date"})
 ```
 
 If you look through the console logs, you should find the same behavior as earlier. If by chance you get sent to the wrong RAG function, then you can add your question (or a variant of it) to the `UserIntent.yaml` file to ensure the correct intent will be returned next time. This gives you full flexibility over controlling the flow.
