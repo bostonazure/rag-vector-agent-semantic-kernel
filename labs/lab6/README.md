@@ -39,7 +39,7 @@ In this exercise, you will explore build a team of 4 agent that going to work to
 
 The objective of this exercise is to create an agent group chat that collaborates to address the user's travel requirements while ensuring human oversight for final approval before booking the trip. Human involvement can be maintained through various techniques, such as user proxy or delegation flow. In this exercise, you will implement user proxy.
 
-[Group Chat agents](./EXE4_GourpAgentwithHuman.md)
+[Group Chat agents and human in the loop](./EXE4_GourpAgentwithHuman.md)
 
 
 Happy coding!
