@@ -7,13 +7,28 @@
 3. Implement logic to perform a similarity search on the vector store
 4. Create a plugin to perform RAG using the memory store
 
+## Prerequisites
+
+* Populate the connection string in the `appsettings.Local.json` file with 
+the values provided in the workshop. If you are doing this after, you will 
+need to use your own settings for either OpenAI or AzureOpenAI. See [instructions 
+for provisioning an Azure OpenAI via the Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) 
+for more information.
+
+### Downloading the Workshop Credentials
+
+```console
+curl -L -o settings.Local.json TO BE FILLED IN FOR WORKSHOP
+Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Local.json"
+```
+
 ### Visual Studio Code
 
 In this lab you will use a [Semantic Kernel Vector Store Connector](https://learn.microsoft.com/en-us/semantic-kernel/concepts/vector-store-connectors/?pivots=programming-language-csharp) to provide semantic searching capability.
 
-1. Open the **labs\lab4\src\start\SK-Workshop-Lab4** folder in VS Code
+1. Open the **labs\lab4\src\start** folder in VS Code
 
-2. In the **file explorer**, expand the **SK-Workshop-Lab4 subfolder** and **right click** on it and select **Open in Integrated Terminal**
+2. In the **file explorer**, expand the **start folder** and **right click** on it and select **Open in Integrated Terminal**
 
 ![Integrated Terminal](assets/lab4_img1.jpg)
 
@@ -22,7 +37,7 @@ In this lab we are going to use the [Microsoft.SemanticKernel.Connectors.SqlServ
 3. **Add the package reference** to the project by running the following command in the terminal:
 
 ```console
-dotnet add package Microsoft.SemanticKernel.Connectors.SqlServer --version 1.31.0-alpha
+dotnet add package Microsoft.SemanticKernel.Connectors.SqlServer --version 1.33.0-alpha
 ```
 
 4. In the **Programs.cs** file, **replace line 19** with the following code:
@@ -289,7 +304,7 @@ If you compare this to the WebRetrieverPlugin we created in the last lab (below)
 * The memoryStore SearchAsync is used instead of the WebSearchEngingPlugin's SearchAsync
 * Manually serialize the searchResults to a JSON array string
 
-3. In **Program.cs**, replace **line 37** with the following line to import the new plugin:
+3. In **Program.cs**, replace **line 36** with the following line to import the new plugin:
 
 ```C#
 kernel.ImportPluginFromType<PdfRetrieverPlugin>();

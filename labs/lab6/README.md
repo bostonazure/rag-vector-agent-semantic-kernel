@@ -4,7 +4,7 @@ Welcome to the Semantic Kernel Agent Lab!
 
 This lab's objective is to provide an introduction on how to build an agent using Semantic Kernel, add specific skills to the agent for executing actions to solve problems, and finally, create a team of agents to collaboratively solve more complex problems.
 
-This lab contains three exercises to help you gain hands-on experience with Semantic Kernel Agents.
+This lab contains four exercises to help you gain hands-on experience with Semantic Kernel Agents.
 
 
 ![Agents](./assets/Lab6.png)
@@ -27,11 +27,20 @@ In the context of Semantic Kernel, agent skills refer to the capabilities or fun
 [Agent with skills](./EXE2_Agent.md)
 
 ### Exercise 3: Agent Group Chat
-In Semantic Kernel, an Agent Group Chat is a framework that enables multiple AI agents to interact and collaborate within the same conversation. This setup allows agents to work together, leveraging their individual skills and capabilities to achieve a common goal1.
+In Semantic Kernel, an Agent Group Chat is a framework that enables multiple AI agents to interact and collaborate within the same conversation. This setup allows agents to work together, leveraging their individual skills and capabilities to achieve a common goal.
 
 In this exercise, you will explore build a team of 4 agent that going to work togther to solve an user trip request. 
 
 [Group Chat agents](./EXE3_GRoupAgent.md)
+
+
+
+### Exercise 4: Agent Group Chat with Humman in the loop
+
+The objective of this exercise is to create an agent group chat that collaborates to address the user's travel requirements while ensuring human oversight for final approval before booking the trip. Human involvement can be maintained through various techniques, such as user proxy or delegation flow. In this exercise, you will implement user proxy.
+
+[Group Chat agents and human in the loop](./EXE4_GourpAgentwithHuman.md)
+
 
 Happy coding!
 
