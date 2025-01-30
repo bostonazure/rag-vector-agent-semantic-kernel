@@ -28,11 +28,14 @@ public class ConfigureLabKeys
       // if appsettings.Local.json exists in .../labs/keys, then WE ARE DONE
       if (File.Exists(localSettingsPath))
       {
-         Console.WriteLine("╔═══════════════════════════════════╗");
-         Console.WriteLine("    ⏭️ Skipping Lab Configuration 🦘");
-         Console.WriteLine("       🤖🤖 ✔✔ ready to go ✔✔ 🚀🚀   ");
-         Console.WriteLine("╚═══════════════════════════════════╝");
-
+         if (Verbose)
+         {
+            Console.WriteLine("╔═══════════════════════════════════╗");
+            Console.WriteLine("    ⏭️ Skipping Lab Configuration 🦘");
+            Console.WriteLine("       🤖🤖 ✔✔ ready to go ✔✔ 🚀🚀   ");
+            Console.WriteLine("╚═══════════════════════════════════╝");
+         }
+         
          return;
       }
       else
