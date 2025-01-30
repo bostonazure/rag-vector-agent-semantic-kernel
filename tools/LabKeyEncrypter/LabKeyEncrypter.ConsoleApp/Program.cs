@@ -1,7 +1,5 @@
 ﻿using LabKeyEncrypter.Library;
 
-Console.WriteLine("Hello, World!");
-
 if (args.Length != 3)
 {
     Console.WriteLine("Usage: LabKeyEncrypter.ConsoleApp <encrypt|decrypt> <file> <password>");

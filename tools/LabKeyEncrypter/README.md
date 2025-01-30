@@ -1,6 +1,10 @@
 # LabKeyEncrypter
 
-## How to use
+## How to use LabKeyEncrypter Console App
+
+```
+tools\LabKeyEncrypter\LabKeyEncrypter.ConsoleApp\LabKeyEncrypterConsoleApp.cs
+```
 
 Run using the encrypt parameter on file {filename}.json to generate or overwrite the file {filename}_encrypted.json with encrypted values
 

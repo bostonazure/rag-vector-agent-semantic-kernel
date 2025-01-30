@@ -10,6 +10,8 @@ public class LabKeyEncrypter
     private static readonly int KeySize = 32; // 256 bit
     private static readonly int Iterations = 10000;
 
+#pragma warning disable SYSLIB0041
+
     public static string Encrypt(string plainText, string password)
     {
         using (var aes = Aes.Create())
@@ -74,11 +76,8 @@ public class LabKeyEncrypter
 
     private static byte[] GenerateSalt()
     {
-        using (var rng = new RNGCryptoServiceProvider())
-        {
-            var salt = new byte[SaltSize];
-            rng.GetBytes(salt);
-            return salt;
-        }
+        var salt = new byte[SaltSize];
+        RandomNumberGenerator.Fill(salt);
+        return salt;
     }
 }
