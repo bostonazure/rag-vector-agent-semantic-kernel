@@ -7,7 +7,7 @@
 
 ## Prerequisites
 
-You have .NET 8.0 or better running.
+You have .NET 9.0 or better running.
 
 ### Downloading the Workshop Credentials
 

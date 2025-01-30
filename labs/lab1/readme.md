@@ -26,21 +26,21 @@ Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Loca
 
 ### Add Semantic Kernel to the application
 
-1. Open the **labs\lab1\src\start\SK-Workshop-Lab1** folder in VS Code
+1. Open the **labs\lab1\src\start** folder in VS Code
 
-2. In the file explorer, **expand the SK-Workshop-Lab1 subfolder** and **right click** on it and select **Open in Integrated Terminal**
+2. In the file explorer, **right click** on the **start** folder and select **Open in Integrated Terminal**
 
 ![Integrated Terminal](assets/lab1_img1.jpg)
 
 3. Add a package reference to the project by running the following command in the terminal:
 
 ```console
-dotnet add package Microsoft.SemanticKernel --version 1.31.0
+dotnet add package Microsoft.SemanticKernel --version 1.33.0
 ```
 
 > NOTE: There may be a newer version when you are doing this
 
-Running the above command without the `--version 1.31.0` option gets the latest NuGet package version, but for this workshop we are avoiding surprises.
+Running the above command without the `--version 1.33.0` option gets the latest NuGet package version, but for this workshop we are avoiding surprises.
 
 ### Configure Semantic Kernel and use Azure OpenAI to chat with the LLM
 
@@ -102,7 +102,7 @@ var step1Result = await chatCompletionService.GetChatMessageContentsAsync(prompt
 dotnet run
 ```
 
-The output should look something like this:
+The beginning of the output should look something like this:
 
 ```text
 Prompt tokens: 14. Completion tokens: 222. Total tokens: 236.
@@ -119,10 +119,11 @@ OpenAI's GPT (Generative Pre-trained Transformer) series, starting with GPT-1 re
 Thus, while no single person can be credited with creating the first LLM, the work of the researchers at OpenAI and the introduction of the Transformer model by Vaswani et al. were key developments 
 in the field.
 ```
+> NOTE: there will be a NullReferenceException at the bottom of the output. We'll get to that soon.
 
 ### Create a Prompt Function and utilize it when calling the LLM
 
-In this section we will create a prompt function which is a prompt text file and a config json file - which make it easier to version your prompts as your system changes.
+In this section we will create a prompt function which is a prompt text file and a config json file. Putting your prompts in their own files will make it easier to version prompts as your system changes.
 
 1. In your file explorer, create a new folder at the project level named **Prompts**
 
