@@ -7,11 +7,26 @@
 3. Implement a simple chatbot loop
 4. Demonstrate the usefulness of a RAG implementation
 
+## Prerequisites
+
+* Populate the connection string in the `appsettings.Local.json` file with 
+the values provided in the workshop. If you are doing this after, you will 
+need to use your own settings for either OpenAI or AzureOpenAI. See [instructions 
+for provisioning an Azure OpenAI via the Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) 
+for more information.
+
+### Downloading the Workshop Credentials
+
+```console
+curl -L -o settings.Local.json TO BE FILLED IN FOR WORKSHOP
+Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Local.json"
+```
+
 ## Visual Studio Code
 
 ### Create a plugin that uses the WebSearchEnginePlugin
 
-1. Open the **labs\lab3\src\start\SK-Workshop-Lab3** folder in VS Code
+1. Open the **labs\lab3\src\start** folder in VS Code
 
 2. In the **Plugins** folder **create a file** named **WebRetrieverPlugin.cs**
 
@@ -70,7 +85,7 @@ Provide a better search query for a web search engine to answer the given questi
 
 This will  use our **DateTimePlugin** to ensure the search query passed to the **WebSearchEnginePlugin** has information about today's date and time.
 
-Back to the WebRetrieverPlugin `RetrieveAsync` method. Once we've had the user's question rephrased to a better search query we manually use the WebSearchEnginePlugin and call its `SearchAsync` method to get a string array of search results.
+Back to the **WebRetrieverPlugin** `RetrieveAsync` method. Once we've had the user's question rephrased to a better search query we manually use the **WebSearchEnginePlugin** and call its `SearchAsync` method to get a string array of search results.
 
 Next we want to use those results to perform RAG, so we need to create the **BasicRAG** prompt function next.
 
@@ -132,13 +147,13 @@ This is a very basic RAG prompt that provides general system instructions, the c
 
 In the previous labs we were just using `Console.Write` lines to view our output, in this section we'll create a loop so the interaction is more like a chatbot.
 
-1. In the **Program.cs** file, **replace line 23** with the following line in order to import our new plugin:
+1. In the **Program.cs** file, **replace line 24** with the following line in order to import our new plugin:
 
 ```C#
 kernel.ImportPluginFromType<WebRetrieverPlugin>();
 ```
 
-2. Next **replace line 32** with the following block of code:
+2. Next **replace line 33** with the following block of code:
 
 ```C#
 var responseTokens = new StringBuilder();
@@ -168,7 +183,7 @@ while (true)
 
 This block of code uses `ChatHistory` to add a sort of short term memory to the chat experience. This allows you to refer to previous responses in the chat session (as you'll see in the next section).
 
-The loop keeps going until the user hits enter.
+The loop keeps going until the user hits enter on a blank line (enter twice).
 
 Notice how the ChatHistory is updated to keep track of the different messages (User and Assistant)
 
@@ -195,7 +210,7 @@ The `responseTokens` StringBuilder is used to capture the tokens as they are ret
 
 Finally, we can test it!
 
-1. In the **file explorer**, find the **SK-Workshop-Lab3 subfolder** and **right click** on it and select **Open in Integrated Terminal**
+1. In the **file explorer**, find the **start folder** and **right click** on it and select **Open in Integrated Terminal**
 
 2. In the terminal, **run your application**.
 
