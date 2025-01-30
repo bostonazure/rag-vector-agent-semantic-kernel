@@ -66,6 +66,11 @@ public class ConfigureLabKeys
          Console.WriteLine($"Error decrypting {mySettingsFile}: {ex.Message}");
          Console.WriteLine($"Double-check that password \'{Password}\' is correct.");
          Console.WriteLine("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+         Console.WriteLine("╔══════════════════════════════════════════════╗");
+         Console.WriteLine("   ❌ One-time Lab Configuration FAILED 😠 ");
+         Console.WriteLine("╚══════════════════════════════════════════════╝");
+
          // exit from Console application
          Environment.Exit(1);
       }
@@ -87,6 +92,8 @@ public class ConfigureLabKeys
       Console.WriteLine("  😄 One-time Lab Configuration ✅ COMPLETED 😊 ");
       Console.WriteLine("             🤖🤖  Let's go!   🚀🚀             ");
       Console.WriteLine("╚══════════════════════════════════════════════╝");
+
+      Environment.Exit(1);
    }
 
    // TODO: don't hard-code ".../labs/keys" path

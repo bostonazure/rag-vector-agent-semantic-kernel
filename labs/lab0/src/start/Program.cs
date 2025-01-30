@@ -12,6 +12,12 @@ using Microsoft.SemanticKernel.Connectors.OpenAI;
 
 using Microsoft.Extensions.Logging;
 
+// --------- FIRST STEP ----------
+// ASK LAB INSTRUCTOR FOR THE PASSWORD
+var password = "𝒜𝒮𝒦 𝒴𝒪𝒰ℛ ℒ𝒜ℬ ℐ𝒩𝒮𝒯ℛ𝒰𝒞𝒯𝒪ℛ ℱ𝒪ℛ 𝒯ℋℰ 𝒫𝒜𝒮𝒮𝒲𝒪ℛ𝒟";
+
+var configger = new ConfigureLabKeys(password);
+configger.RandomizeDecryptDistribute();
 
 var builder = Host.CreateApplicationBuilder(args).AddAppSettings();
 // uncomment to HIDE token usage to "info" log stream: builder.Logging.AddConsole().SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Warning);
