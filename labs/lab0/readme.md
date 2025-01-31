@@ -2,19 +2,12 @@
 
 ## Learning Objectives
 
-1. Get local copies of API keys for accessing Azure OpenAI, Azure Bing Search API, and Azure SQL DB
-2. Run a simple SK console app that successfully utilizes resources hosted by Azure AI Forge
+1. Configure you laptop to access the needed Azure AI, SQL, and Bing resources.
+2. Run a simple SK console app that successfully utilizes resources hosted by Azure AI Forge.
 
 ## Prerequisites
 
 You have .NET 9.0 or better running.
-
-### Downloading the Workshop Credentials
-
-```console
-curl -L -o appsettings.Local.json https://bit.ly/workshop-banana-2024
-Invoke-WebRequest -Uri "https://bit.ly/workshop-banana-2024" -OutFile "appsettings.Local.json"
-```
 
 Listen for instructions when you get to this step!
 

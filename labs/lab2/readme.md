@@ -15,13 +15,6 @@ need to use your own settings for either OpenAI or AzureOpenAI. See [instruction
 for provisioning an Azure OpenAI via the Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) 
 for more information.
 
-### Downloading the Workshop Credentials
-
-```console
-curl -L -o settings.Local.json TO BE FILLED IN FOR WORKSHOP
-Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Local.json"
-```
-
 ## Visual Studio Code
 
 ### Create a native KernelFunction plugin

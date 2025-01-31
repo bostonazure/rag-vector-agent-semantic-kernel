@@ -9,18 +9,7 @@
 
 ## Prerequisites
 
-* Populate the connection string in the `appsettings.Local.json` file with 
-the values provided in the workshop. If you are doing this after, you will 
-need to use your own settings for either OpenAI or AzureOpenAI. See [instructions 
-for provisioning an Azure OpenAI via the Azure AI Foundry portal](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/create-resource?pivots=web-portal) 
-for more information.
-
-### Downloading the Workshop Credentials
-
-```console
-curl -L -o settings.Local.json TO BE FILLED IN FOR WORKSHOP
-Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Local.json"
-```
+* Lab 0 (this configures the rest of the labs)
 
 ## Visual Studio Code
 
@@ -35,12 +24,12 @@ Invoke-WebRequest -Uri "TO BE FILLED IN FOR WORKSHOP" -OutFile "appsettings.Loca
 3. Add a package reference to the project by running the following command in the terminal:
 
 ```console
-dotnet add package Microsoft.SemanticKernel --version 1.33.0
+dotnet add package Microsoft.SemanticKernel --version 1.35.0
 ```
 
-> NOTE: There may be a newer version when you are doing this
+> NOTE: There may be a newer version when you are doing this. To see the latest, [search for Microsoft.SemanticKernel on nuget.com website](https://www.nuget.org/packages/Microsoft.SemanticKernel).
 
-Running the above command without the `--version 1.33.0` option gets the latest NuGet package version, but for this workshop we are avoiding surprises.
+Running the above command without the `--version 1.35.0` option gets the latest NuGet package version, but for this workshop we are avoiding surprises.
 
 ### Configure Semantic Kernel and use Azure OpenAI to chat with the LLM
 

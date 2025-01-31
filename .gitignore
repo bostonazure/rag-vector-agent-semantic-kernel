@@ -1,3 +1,6 @@
+# Lab Key approach makes this more sensitive
+appsettings.Local.json
+
 dotnet/.config
 
 ## Ignore Visual Studio temporary files, build results, and
@@ -505,3 +508,4 @@ labs/lab6/TMP/EXE1_Basic_Agent.md
 labs/lab6/TMP/EXE2_Agent.md
 labs/lab6/TMP/EXE3_GRoupAgent.md
 labs/lab6/TMP/README.md
+labs/lab1/src/end/appsettings.Local.json

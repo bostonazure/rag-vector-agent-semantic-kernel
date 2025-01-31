@@ -1,9 +1,4 @@
-﻿//dotnet new console --framework net8.0 -n lab0
-// dotnet add package Microsoft.SemanticKernel ; dotnet add package Microsoft.SemanticKernel.Connectors.OpenAI ; dotnet add package Microsoft.Extensions.Hosting ; 
-// dotnet build
-// curl -L -o appsettings.Local.json https://bit.ly/grape06dec24
-
-using Configuration;
+﻿using Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,7 +21,16 @@ builder.Services.AddKernel().AddChatCompletionService(builder.Configuration.GetC
 var app = builder.Build();
 var chatCompletionService = app.Services.GetRequiredService<IChatCompletionService>();
 
-var prompt = "tell one sentence about a famous programmer";
+var prompt = "In a single run-on sentence, introduce a famous programmer.";
+prompt = "Out of the top 1001 famous programmers, who is the one ranked exactly in the middle?";
+// prompt = "Make an internal list of the top 1001 famous progammers and computer scientists. If there are challenge because this is subjective and contextual, still go through the exercise, and if you need a tie breaker rank higher those born first. Then report in a single run-on sentence the one ranked exactly in the middle (at # 501)";
+prompt = "Make an internal list of the top 1001 progammers and computer scientists. If there are challenge because this is subjective and contextual, still go through the exercise, and if you need a tie breaker rank higher those born first. Then extract the middle 51, reorganize them in alphabetical order by last name. Then report in a single run-on sentence the one ranked exactly in the middle (at # 26). Distribute N Unicode (non-ASCII) characters within the sentence, where N is number of characters in the person's first name.";
+
+// prompt = "Who is the president of the USA?";
+// prompt = "How old is Joe Biden right now?";
+// prompt = $"Today is {DateTime.Now}. How old is Joe Biden right now?";
+
+// prompt = "How old is the president of the USA?";
 
 // Microsoft.SemanticKernel.Connectors.OpenAI
 OpenAIPromptExecutionSettings settings = new()
@@ -35,6 +39,7 @@ OpenAIPromptExecutionSettings settings = new()
     MaxTokens = 128 // what is default?
 };
 
+Console.WriteLine($"Prompt: 《{prompt}》\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
 var results = await chatCompletionService.GetChatMessageContentsAsync(prompt, settings);
 
 foreach (var res in results)

@@ -99,11 +99,11 @@ Please install this software ahead of the workshop:
 
 1. [VS Code](https://code.visualstudio.com/download) (Windows, Mac, Linux) or [Visual Studio](https://visualstudio.microsoft.com/) (Windows). See [More information on VS Code and VS setup](setup.md)
 
-2. [.NET 8](https://dotnet.microsoft.com/en-us/download) (.NET 9 should work but we have not verified as of 12/1/2024)
+2. [.NET 9](https://dotnet.microsoft.com/en-us/download)
 
 3. [SQL Server Management Studio](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16) or [Azure Data Studio](https://learn.microsoft.com/en-us/azure-data-studio/download-azure-data-studio)
 
-4. LLM API credentials from Azure AI Foundry (formerly known as Azure AI or Azure OpenAI). The labs use both GPT-4o and text-embedding-ada-002 models. 
+4. LLM API credentials from Azure AI Foundry (formerly known as Azure AI or Azure OpenAI). The labs use both GPT-4o and text-embedding-ada-002 models.
 
 > NOTE: For simplicity, we plan to provide credentials for Azure OpenAI services to use during the workshop, after which they will stop working.
 
@@ -113,33 +113,33 @@ Please install this software ahead of the workshop:
 
 📣 You are also welcome to create your own resources and use them in the workshop. Since you are paying for them, you can decide when to decommission associated resources. See [Instructions for creating LLM Connection String](configure-llm.md)
 
-6. You can expect we will recommend you install additional tools and VS Code or Visual Studio extensions, NuGet packages, or code samples as part of the workshop experience.
+6. You can may recommend additional tools, VS Code extensions, NuGet packages, or code samples as part of the workshop experience.
 
 ## Additional Resources
 
 * [Semantic Kernel](https://github.com/microsoft/semantic-kernel)
 * [Single Page Semantic Kernel for C# - 2024 .NET version 1.0 concept-to-code mapping](http://aka.ms/sk/map)
-* There is a generic [Bing Text Search](https://learn.microsoft.com/en-us/semantic-kernel/concepts/text-search/text-search-function-calling?pivots=programming-language-csharp) feature available in Azure. 
+* There is a generic [Bing Text Search](https://learn.microsoft.com/en-us/semantic-kernel/concepts/text-search/text-search-function-calling?pivots=programming-language-csharp) feature available in Azure.
 
 ## Contributors
 
 ### Bill Wilder
-AI consultant who also has significant Azure and Cybersecurity expertise. Engaged member of local tech community as [Boston Azure and Virtual Boston Azure](https://meetup.com/bostonazure) co-organizer, frequent [public speaker](https://sessionize.com/billwilder/), and [occassional blogger](https://blog.codingoutloud.com).
 
-Microsoft MVP. CISSP. Author of book [Cloud Architecture Patterns](https://bit.ly/billbook). 
+Bill is an AI consultant with significant Azure and Cybersecurity expertise. Engaged member of local tech community as [Boston Azure AI](https://meetup.com/bostonazure) co-organizer, sporadic [public speaker](https://sessionize.com/billwilder/), and [occassional blogger](https://blog.codingoutloud.com).
 
-Connect on [LinkedIn](https://linkedin.com/in/billwilder), [Twitter/X](https://x.com/codingoutloud), or [Bluesky](https://bsky.app/profile/codingoutloud.com). 
+Microsoft MVP. CISSP. Author of book [Cloud Architecture Patterns](https://bit.ly/billbook).
+
+Connect on [LinkedIn](https://linkedin.com/in/billwilder), [Twitter/X](https://x.com/codingoutloud), or [Bluesky](https://bsky.app/profile/codingoutloud.com).
 
 ### Jason Haley
-I’m an independent Full Stack Solution Architect with a deep focus on Azure and .NET technologies.  I’m currently focused on helping customers integrate Gen AI functionality into their .NET applications.
 
-[LinkedIn](https://www.linkedin.com/in/jason-a-haley/) | 
-[Twitter](https://x.com/haleyjason) | 
-[My Blog](https://jasonhaley.com/) | 
-[Email](mailto://info@jasonhaley.com) 
+Jason is an independent Full Stack Solution Architect with a deep focus on Azure and .NET technologies. He is currently focused on helping customers integrate Gen AI functionality into their .NET applications.
+
+[LinkedIn](https://www.linkedin.com/in/jason-a-haley/) | [Twitter](https://x.com/haleyjason) | [Jason's Blog](https://jasonhaley.com/) | [Email](mailto://info@jasonhaley.com)
 
 ### Juan Pablo Garcia Gonzalez
-I am an AI Partner Solution Architect working with Microsoft, focusing on AI solutions with our Global Software Company partners group. I have more than 24 years of experience in the tech industry.
+
+Juan Pablo an AI Partner Solution Architect working with Microsoft, focusing on AI solutions with our Global Software Company partners group. He has more than 24 years of experience in the tech industry.
 
 [LinkedIn](https://www.linkedin.com/in/jpgarciagonzalez/)
 
