@@ -1,17 +1,17 @@
-﻿using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Agents.Chat;
 using Microsoft.SemanticKernel.ChatCompletion;
 
 namespace AgentsSample;
 
-public static class TravelAgentChatHelper
+public static class TravelAgentChatHelper 
 {
     /// <summary>
     ///  Create a basic agent with the given name, kernel, and instructions.
     ///  This agent has not skills, and it is used to create a chat completion agent.
     /// </summary>
-    private static ChatCompletionAgent CreateBasicAgent(string agentName, Kernel agentKernel, string agentInstructions, string agentDescription)
+    private static ChatCompletionAgent CreateBasicAgent (string agentName, Kernel agentKernel, string agentInstructions, string agentDescription)
     {
         return new ChatCompletionAgent()
         {
@@ -25,11 +25,12 @@ public static class TravelAgentChatHelper
             Description = agentDescription
         };
     }
+
     /// <summary>
     /// Get the user trip request to be used in the chat.
     /// </summary>
     /// <returns></returns>
-    private static string GetUserTripRequest()
+    public static string GetUserTripRequest()
     {
         Console.WriteLine();
         Console.WriteLine();
@@ -70,11 +71,10 @@ public static class TravelAgentChatHelper
             """
         };
     }
-
     /// <summary>
     /// Check if the final message contains the termination key to determine if the chat should end.
     /// </summary>
-    private sealed class ApprovalTerminationStrategy(string terminationKey) : TerminationStrategy
+    public sealed class ApprovalTerminationStrategy(string terminationKey) : TerminationStrategy
     {
         // Terminate when the final message contains the term including the termination key.
         protected override Task<bool> ShouldAgentTerminateAsync(Agent agent, IReadOnlyList<ChatMessageContent> history, CancellationToken cancellationToken)
@@ -87,7 +87,7 @@ public static class TravelAgentChatHelper
     public static async Task TravelAgentGroupChatSecuential(Kernel kernel)
     {
         //1. Define the terminaiton key of the chat discussion.
-        string terminationKey = "Trip booked";
+        string terminationKey="Trip booked";
 
         //2. Define the instructions for each agent.
         // Instructions define what each agent can do and how they should respond.
@@ -130,12 +130,12 @@ public static class TravelAgentChatHelper
         ChatCompletionAgent TravelAgencyAgent = CreateBasicAgent("TravelAgencyAgent", kernel, TravelAgencyAgentInstructions, "Travel Agency Agent, you review flight and hotel options, select the best and command to book.");
         ChatCompletionAgent FlyReservationAgent = CreateBasicAgent("FlightSearchAgent", kernel, FlightSearchAssistantInstructions, "Flight Search Assistant, not booking");
         ChatCompletionAgent BookingAgent = CreateBasicAgent("BookingAgent", kernel, BookingAgentInstructions, "Booking Agent, you book the flight and hotel when you recieve 'Approve and ready to book!' confirmation");
-
+        
         //3. Create the chat group with the agents and the termination strategy.
         // The termination strategy defines when the chat should end.
         // Define which agents participate in the chat and the maximum number of iterations.
         AgentGroupChat chat =
-            new(TravelAgencyAgent, BookingAgent, FlyReservationAgent, HotelReservationAgent)
+            new(TravelAgencyAgent,BookingAgent, FlyReservationAgent, HotelReservationAgent)
             {
                 ExecutionSettings =
                     new()
@@ -150,10 +150,10 @@ public static class TravelAgentChatHelper
                             }
                     }
             };
-
-
+        
+        
         //4. Get the trip request form the user
-        string userTripRequest = GetUserTripRequest();
+        string  userTripRequest =  GetUserTripRequest();
 
         //5. Start the chat
         //adding the user userTripRequest to the chat as first message
@@ -176,7 +176,7 @@ public static class TravelAgentChatHelper
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Blue;
         }
-
+    
     }
 
-}
+}  

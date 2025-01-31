@@ -79,13 +79,16 @@ To start the lab, you need to create a .NET Console App and add the necessary Nu
     dotnet user-secrets init
     ```
 
-    3.3  Set secrets using the .NET CLI:
-    ```powershell
-    dotnet user-secrets set "OpenAI:ModelId" "your_model_id"
-    dotnet user-secrets set "OpenAI:Endpoint" "your_endpoint"
-    dotnet user-secrets set "OpenAI:ApiKey" "your_api_key"
+    3.3  Copy the configuration file  `appsettings.Local.json` from the `start` forlder of the lab in your project folder `myAgentConsoleApp`.
+    
+    3.4 Ater have copied the file, you have to update items in the project file (.csproj) to be sure the config file going to be copy with the binaries:
+    ```xml
+    <ItemGroup>
+        <None Update="appsettings.Local.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
     ```
- 
 ## Basic Semantic Kernel code and Kernel creation
 4. Task:Replace Program.cs code to create your first SK Kernel
     
@@ -99,33 +102,48 @@ To start the lab, you need to create a .NET Console App and add the necessary Nu
     using Microsoft.Extensions.Logging;
     using Microsoft.SemanticKernel;
     using Microsoft.SemanticKernel.ChatCompletion;
-    using Microsoft.SemanticKernel.Connectors.OpenAI;
-
-
     using Microsoft.SemanticKernel.Agents;
     using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
-
     using Microsoft.Extensions.Configuration;
+    using System.Text.RegularExpressions;
 
     namespace AgentsSample;
     class Program
     {
-
+        /// <summary>
+        /// Read key valur form a connection string
+        /// </summary>
+        /// <param name="connectionString"></param>
+        /// <param name="keyName"></param>
+        /// <returns></returns>
+        static string GetKeyFromConnectionString(string connectionString, string keyName)
+        {
+            var match = Regex.Match(connectionString, $@"{keyName}=([^;]+)");
+            return match.Success ? match.Groups[1].Value : string.Empty;
+        }
+        /// <summary>
+        /// Create a Kernel with the azureOpenAI completion services
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
         static Kernel CreateKernel()
         {
             var configuration = new ConfigurationBuilder()
-                    .AddUserSecrets<Program>()
+                    .AddJsonFile("appsettings.Local.json")
                     .Build();
 
-            var modelId = configuration["OpenAI:ModelId"] ?? throw new InvalidOperationException("Model ID not set in secrets.");
-            var endpoint = configuration["OpenAI:Endpoint"] ?? throw new InvalidOperationException("Endpoint not set in secrets.");
-            var apiKey = configuration["OpenAI:ApiKey"] ?? throw new InvalidOperationException("API Key not set in secrets.");
+            string openAiConnectionString = configuration["ConnectionStrings:OpenAI"] ?? throw new InvalidOperationException("OpenAI connection string not set in configuration.");
+    
+            var modelId = GetKeyFromConnectionString(openAiConnectionString, "ChatDeploymentName") ?? throw new InvalidOperationException("Model ID not set in secrets.");
+            var endpoint = GetKeyFromConnectionString(openAiConnectionString, "Endpoint") ?? throw new InvalidOperationException("Endpoint not set in secrets.");
+            var apiKey = GetKeyFromConnectionString(openAiConnectionString, "Key") ?? throw new InvalidOperationException("API Key not set in secrets.");
 
             var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(modelId, endpoint, apiKey);
-            builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Trace));
+
+            builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Information));
             return builder.Build();
         }
-
+       
         static async Task Main(string[] args)
         {
             //1. Create a Semantic Kernel KERNEL for the agent
