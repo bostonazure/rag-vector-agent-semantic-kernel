@@ -1,4 +1,4 @@
-﻿using Microsoft.SemanticKernel;
+using Microsoft.SemanticKernel;
 using System.ComponentModel;
 
 
@@ -9,7 +9,7 @@ namespace AgentsSample
     /// This class provides a method to get the weather of a city
     /// The method is exposed as a kernel function
     /// </summary>
-    public class WeatherPlugin
+    public class WeatherPlugin 
     {
         [KernelFunction("getCurrentCityWeather")]
         [Description("Provide current City weather using the city name as key search.")]

@@ -2,38 +2,54 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.SemanticKernel;
 using Microsoft.SemanticKernel.ChatCompletion;
-using Microsoft.SemanticKernel.Connectors.OpenAI;
-
-
 using Microsoft.SemanticKernel.Agents;
 using Microsoft.SemanticKernel.Connectors.AzureOpenAI;
-
 using Microsoft.Extensions.Configuration;
+using System.Text.RegularExpressions;
 
 namespace AgentsSample;
+
 class Program
 {
-
+    /// <summary>
+    /// Read key valur form a connection string
+    /// </summary>
+    /// <param name="connectionString"></param>
+    /// <param name="keyName"></param>
+    /// <returns></returns>
+    static string GetKeyFromConnectionString(string connectionString, string keyName)
+    {
+        var match = Regex.Match(connectionString, $@"{keyName}=([^;]+)");
+        return match.Success ? match.Groups[1].Value : string.Empty;
+    }
+    /// <summary>
+    /// Create a Kernel with the azureOpenAI completion services
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     static Kernel CreateKernel()
     {
         var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<Program>()
+                .AddJsonFile("appsettings.Local.json")
                 .Build();
 
-        var modelId = configuration["OpenAI:ModelId"] ?? throw new InvalidOperationException("Model ID not set in secrets.");
-        var endpoint = configuration["OpenAI:Endpoint"] ?? throw new InvalidOperationException("Endpoint not set in secrets.");
-        var apiKey = configuration["OpenAI:ApiKey"] ?? throw new InvalidOperationException("API Key not set in secrets.");
+        string openAiConnectionString = configuration["ConnectionStrings:OpenAI"] ?? throw new InvalidOperationException("OpenAI connection string not set in configuration.");
+   
+        var modelId = GetKeyFromConnectionString(openAiConnectionString, "ChatDeploymentName") ?? throw new InvalidOperationException("Model ID not set in secrets.");
+        var endpoint = GetKeyFromConnectionString(openAiConnectionString, "Endpoint") ?? throw new InvalidOperationException("Endpoint not set in secrets.");
+        var apiKey = GetKeyFromConnectionString(openAiConnectionString, "Key") ?? throw new InvalidOperationException("API Key not set in secrets.");
 
         var builder = Kernel.CreateBuilder().AddAzureOpenAIChatCompletion(modelId, endpoint, apiKey);
-        builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Trace));
+
+        builder.Services.AddLogging(services => services.AddConsole().SetMinimumLevel(LogLevel.Information));
         return builder.Build();
     }
 
     static async Task Main(string[] args)
     {
         //1. Create a Semantic Kernel KERNEL for the agent
-        Console.WriteLine("Beginning Kernel creation!");
-        Kernel myKernel = CreateKernel();
+        Console.WriteLine("Beginning Kernel creation!");    
+        Kernel myKernel =  CreateKernel();
         Console.WriteLine("Kernel created!");
 
         //2. Clone the Kernel for the agent
@@ -43,9 +59,8 @@ class Program
         Console.WriteLine("Select which lab to execute:");
         Console.WriteLine("1. Call_CityPoetAgentBasic");
         Console.WriteLine("2. Call_CityPoetAgentWithSkills");
-        Console.WriteLine("3. WriterReviewGroupAgent");
-        Console.WriteLine("4. TravelAgentGroupChatSequential");
-        Console.WriteLine("5. TravelAgentGroupChatStrategy");
+        Console.WriteLine("3. TravelAgent GroupChat Sequential autonumous");
+        Console.WriteLine("4. TravelAgent GroupChat Human in the loop");
 
         var choice = Console.ReadLine();
         switch (choice)
@@ -57,15 +72,12 @@ class Program
                 await Call_CityPoetAgentWithSkills(theAgentKernel);
                 break;
             case "3":
-                //await ProgramChatGroupAgent.WriterReviewGroupAgent(theAgentKernel);
-                new NotImplementedException("This lab is not implemented yet.");
+                await TravelAgentChatHelper.TravelAgentGroupChatSecuential(theAgentKernel);
                 break;
             case "4":
-                await TravelAgentChatHelper.TravelAgentGroupChatSecuential(theAgentKernel);
-                new NotImplementedException("This lab is not implemented yet.");
+               await TravelAgentChatHelperWithHumanProxy.TravelAgentGroupChatSecuentialAsync(theAgentKernel);
                 break;
             case "5":
-                //await ProgramChatGroupAgent.TravelAgentGroupChatStrategy(myKernel.Clone());
                 new NotImplementedException("This lab is not implemented yet.");
                 break;
             default:
@@ -93,26 +105,25 @@ class Program
                 // It also includes the current date and time. $now is a placeholder for the current date and time.
                 Instructions =
                     """
-                You are an agent designed to write PoemAgentKernel based on a suject and another poet tone.
-                
-                Use the current date and time to provide up-to-date details or time-sensitive responses, 
-                the current date and time is: {{$now}}. Include the date and time in the poem.
+                    You are an agent designed to write PoemAgentKernel based on a suject and another poet tone.
+                    
+                    Use the current date and time to provide up-to-date details or time-sensitive responses, 
+                    the current date and time is: {{$now}}. Include the date and time in the poem.
 
-                You only write poems about Cities, if the subject is not a city, you will not write a poem.
+                    You only write poems about Cities, if the subject is not a city, you will not write a poem.
 
-                """,
+                    """,
                 // 1.3 Kernel to use for the agent
                 Kernel = AgentKernel
             };
         Console.WriteLine(" Agent created!");
         return agent;
     }
-
     /// <summary>
     /// Call the CityPoetAgent with basic functionality, this method will start a conversation with the agent
     /// </summary>
     /// <param name="AgentKernel"> The agent's kernel</param>
-    /// <returns></returns>
+    /// <returns></returns>he agent's kernel
     static async Task Call_CityPoetAgentBasic(Kernel AgentKernel)
     {
         //1. Create a CityPoetAgent
@@ -129,7 +140,7 @@ class Program
             Console.WriteLine("Enter a subject for the poem, or press enter to exit.");
             Console.Write("User > ");
             string userInput = Console.ReadLine() ?? string.Empty;
-
+            
             if (string.IsNullOrWhiteSpace(userInput))
             {
                 //continue;
@@ -141,25 +152,31 @@ class Program
             history.Add(new ChatMessageContent(AuthorRole.User, userInput));
             Console.WriteLine();
             DateTime now = DateTime.Now;
-
+            
             //3.3 Create arguments to send to the Agent, in this case, we are only sending the current date and time
             KernelArguments arguments =
-               new()
+            new()
                 {
-                { "now", $"{now.ToShortDateString()} {now.ToShortTimeString()}" }
+                    { "now", $"{now.ToShortDateString()} {now.ToShortTimeString()}" }
                 };
-
+            
             //3.4 Invoke the agent
             Console.WriteLine();
             await foreach (var message in agent.InvokeStreamingAsync(history, arguments))
-            {
+            {   
                 Console.Write(message);
             }
             Console.WriteLine();
 
         } while (!isComplete);
-
+        
     }
+
+    /// <summary>
+    /// Create and Agent with Skill that creat Poems and ground weahter information leveraging the WeatherPlugin
+    /// </summary>
+    /// <param name="AgentKernel">the agent's kernel</param>
+    /// <returns></returns>
     static ChatCompletionAgent CreateAgentCityPoetWithSkills(Kernel AgentKernel)
     {
         //1. Add a WeatherPlugin to the Kernel, for this agent to use
@@ -179,33 +196,33 @@ class Program
                 // It also includes the weather of the city at the end of the poem. (This is a skill)
                 Instructions =
                     """
-                You are an agent designed to write PoemagentKernel based on a suject and another poet tone.
-                
-                Use the current date and time to provide up-to-date details or time-sensitive responses.
-                The current date and time is: {{$now}}. include the date and time in the poem.
+                    You are an agent designed to write PoemagentKernel based on a suject and another poet tone.
+                    
+                    Use the current date and time to provide up-to-date details or time-sensitive responses.
+                    The current date and time is: {{$now}}. include the date and time in the poem.
 
-                The subject you are writing about is: {{$subject}}
-                You only write poems about Cities, if the subject is not a city, you will not write a poem.
+                    The subject you are writing about is: {{$subject}}
+                    You only write poems about Cities, if the subject is not a city, you will not write a poem.
 
-                The tone you are writing in is: {{$poetName}}. 
+                    The tone you are writing in is: {{$poetName}}. 
 
-                At the end of the Poem, add the current weather of the city as last paragraph. Use this phrase 'The current Weather is: '
-                """,
+                    At the end of the Poem, add the current weather of the city as last paragraph. Use this phrase 'The current Weather is: '
+                    """,
                 // 1.3 Kernel to use for the agent
                 Kernel = AgentKernel,
                 // 1.4 Arguments to pass to the agent. 
                 // This agent will use the FunctionChoiceBehavior.Auto() to select the best function to use.
                 Arguments =
-                    new KernelArguments(new AzureOpenAIPromptExecutionSettings()
-                    {
-                        FunctionChoiceBehavior = FunctionChoiceBehavior.Auto()
+                    new KernelArguments(new AzureOpenAIPromptExecutionSettings() 
+                    { 
+                        FunctionChoiceBehavior = FunctionChoiceBehavior.Auto() 
                     })
-
+                    
             };
         return agent;
     }
 
-    /// <summary>
+   /// <summary>
     /// Call the CityPoetAgent with skills, this method will start a conversation with the agent
     /// </summary>
     /// <param name="AgentKernel"></param>
@@ -225,9 +242,9 @@ class Program
             string inputSubject = Console.ReadLine() ?? string.Empty;
             Console.Write("User Poet name> ");
             string inputPoet = Console.ReadLine() ?? string.Empty;
-
+            
             //3.1.1 Combine the user inputs in a message for the agent
-            string userInput = $"Subject: {inputSubject} with tone {inputPoet}";
+            string userInput=$"Subject: {inputSubject} with tone {inputPoet}";
 
             //3.1.2 Check if the user wants to exit the conversation
             if (string.IsNullOrWhiteSpace(inputSubject))
@@ -239,20 +256,20 @@ class Program
 
             //3.2 Add user input to the history
             history.Add(new ChatMessageContent(AuthorRole.User, userInput));
-
+            
             DateTime now = DateTime.Now;
 
             //3.3 Create arguments to send to the Agent
             // This time we are sending the subject and the poet name to the agent.
             // The agent will use this information to write the poem.
             // This is the technical to pass specific data to the agent.
-            KernelArguments arguments = new()
+            KernelArguments arguments =new()
             {
                 { "now", $"{now.ToShortDateString()} {now.ToShortTimeString()}" },
                 { "subject", inputSubject },
                 { "poetName", inputPoet }
             };
-
+            
             Console.WriteLine();
 
             //3.4 Invoke the agent
@@ -265,6 +282,6 @@ class Program
 
 
         } while (!isComplete);
-
+        
     }
 }
