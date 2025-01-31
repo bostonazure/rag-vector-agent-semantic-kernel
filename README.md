@@ -1,3 +1,10 @@
+# This was the FIRST VERSION of what is now called the 
+# [Semantic Kernel Dev Workshop](https://github.com/BostonAzureAI/semantic-kernel-dev-workshop)
+
+Find the current version over on Boston Azure AI here: https://github.com/BostonAzureAI/semantic-kernel-dev-workshop
+
+**TO BE ARCHIVED**
+
 # Building RAG-Enabled Apps and AI Agents with Semantic Kernel and Azure AI
 
 Welcome the second edition of this workshop (signups are closed).
